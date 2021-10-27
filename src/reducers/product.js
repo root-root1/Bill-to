@@ -1,0 +1,55 @@
+export default () => [
+    {
+        "Item": "2 DG",
+        "NSN": 75964268,
+        "PACK": "PCS",
+        "MRP": 450,
+        "BATCHNO": "N95",
+        "BATCHEX": "05/24",
+        "QTY": 1,
+        "UNITPRICE": 47.50,
+        "DISCOUNT": 0,
+        "GST": 18,
+        "TAXABLEAMOUNT": 100.0,
+        "NETVAL": 50.00
+    },{
+        "Item": "Mask N-95",
+        "NSN": 75964268,
+        "PACK": "PCS",
+        "MRP": 210,
+        "BATCHNO": "N95",
+        "BATCHEX": "05/24",
+        "QTY": 1,
+        "UNITPRICE": 47.50,
+        "DISCOUNT": 0,
+        "GST": 18,
+        "TAXABLEAMOUNT": 100.0,
+        "NETVAL": 50.00
+    },{
+        "Item": "Mask N-95",
+        "NSN": 75964268,
+        "PACK": "PCS",
+        "MRP": 210,
+        "BATCHNO": "N95",
+        "BATCHEX": "05/24",
+        "QTY": 1,
+        "UNIT PRICE": 47.50,
+        "DISCOUNT": 0,
+        "GST": 18,
+        "TAXABLEAMOUNT": 100.0,
+        "NETVAL": 50.00
+    },{
+        "Item": "Mask N-95",
+        "NSN": 75964268,
+        "PACK": "PCS",
+        "MRP": 210,
+        "BATCHNO": "N95",
+        "BATCHEX": "05/24",
+        "QTY": 1,
+        "UNIT PRICE": 47.50,
+        "DISCOUNT": 0,
+        "GST": 18,
+        "TAXABLEAMOUNT": 100.0,
+        "NETVAL": 50.00
+    },
+]

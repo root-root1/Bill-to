@@ -1,12 +1,13 @@
-import React from 'react';
+import React, {useState} from 'react';
 import BillToModal from './BillToModal';
 import TableItem from './TableItem';
 import { useSelector } from 'react-redux';
-import ChangeAddress from './ChangeAddress';
 
 const Home = () => {
     const activeSelectedUserReducer = useSelector(state => state.activeSelectedUserReducer);
-   
+    const [details, setDetails] = useState(activeSelectedUserReducer ? activeSelectedUserReducer.details.address: '');
+    // const [showMe, setShowMe] = useState(false);
+    // const toogle = () => setShowMe(!showMe);
 
     return (
         <div className='container'>
@@ -24,10 +25,8 @@ const Home = () => {
                     <p className='text-muted'>{activeSelectedUserReducer ? activeSelectedUserReducer.name : ''}</p>
                 </div>
                 <div className="col-sm mt-8 col" >
-                    <ChangeAddress>
-                        Supply Address
-                    </ChangeAddress>
-                    <p className='text-muted'>{activeSelectedUserReducer ? activeSelectedUserReducer.details.address : ''}</p>
+                    Supply Address
+                    <p className='text-muted'>{activeSelectedUserReducer ? activeSelectedUserReducer.details.address: ''}</p>
                 </div>
             </div>
             <TableItem/>

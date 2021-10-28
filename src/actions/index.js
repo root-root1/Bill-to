@@ -6,6 +6,9 @@ export const selectUser = (user) => {
     }
 }
 
-// export const showProduct = (tprops) => {
-
-// }
+export const showProduct = (product) => {
+    return {
+        type: "PRODUCT_CLICKED",
+        payload: product
+    }
+}

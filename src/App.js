@@ -4,7 +4,7 @@ import Home from './components/Home';
 
 const App = () => {
   return (
-    <div className="App mt-4">
+    <div className="App">
       <Home />
     </div>
   );

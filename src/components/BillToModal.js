@@ -1,9 +1,10 @@
 import React, {useState} from 'react';
 import {Modal, ModalHeader, ModalBody, ModalFooter} from "reactstrap";
-import { TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, CardTitle, CardText, Row, Col } from 'reactstrap';
+import { TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap';
 import classnames from 'classnames';
 import './BillToModal.css'
 import Search from './Search';
+import { useSelector } from 'react-redux';
 
 const BillToModal = (props) => {
     const [modal, setModal] = useState(false);
@@ -14,6 +15,8 @@ const BillToModal = (props) => {
     const toggle = tab => {
         if(activeTab !== tab) setActiveTab(tab);
     }
+
+    const customers = useSelector(state => state.customers);
 
     return (
         <div>
@@ -52,7 +55,7 @@ const BillToModal = (props) => {
                     </Nav>
                     <TabContent activeTab={activeTab}>
                         <TabPane tabId="1">
-                            <Search toogleModal={toogleModal} />
+                            <Search toogleModal={toogleModal} customers={customers} />
                         </TabPane>
                         <TabPane tabId="2">
                             

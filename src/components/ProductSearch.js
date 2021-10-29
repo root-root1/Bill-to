@@ -4,39 +4,53 @@ import './productSearch.css';
 import { showProduct } from '../actions';
 import { useDispatch } from 'react-redux';
 
-const ProductSearch = ({toogleModal, mapData}) => {
+const ProductSearch = ({data, setInputFiels, inputfields, inputfield, index}) => {
     const [searchTearm, setSearchTearm] = useState('');
     const dispatch = useDispatch();
+
+    const handleChangeInput = (index, event) => {
+        const values = [...inputfields];
+        values[index][event.target.name] = event.target.value;
+        setInputFiels(values)
+        setSearchTearm(event.target.value)
+    }
     
     return (
-        <Row>
-            <Col sm="12" className="user">
-                <div className="search">
-                    <input type="text" placeholder="search..." onChange={event => {setSearchTearm(event.target.value)}} />
-                    {mapData.filter((val) => {
-                        if (searchTearm === ''){
-                            return val;
-                        }else if (val.Item.toLowerCase().includes(searchTearm.toLowerCase())) { 
-                            return val;
-                        }
-                    }).map((product, id) => {
-                        // console.log()
-                        return (
-                            <div onClick={toogleModal}>
-                                <dl className='row'  key={id} onClick={() => dispatch(showProduct(product))}>
-                                    <dt className='col-sm-3'>{product.Item}</dt>
-                                    {/* <dd className='col-sm-9'>{customer.details.address}</dd> */}
-                                </dl>
-                            </div>
-                        );
-                    })}
-                </div>
-                <div className="searchIcon"></div>
-                <div className="dataResult">
+        <div className="search">
+            <div className="searchInput">
+                <input 
+                    type="text" 
+                    name='Item'
+                    value={inputfield.Item}
+                    placeholder="product"
+                    onChange={event => handleChangeInput(index, event)}
+                />
+                <div className='searchIcon'>
 
                 </div>
-            </Col>
-        </Row>
+            </div>
+            {
+                searchTearm.length !== 0 && (
+                    <div className="dataResult">
+                        {
+                            data.filter((val) => {
+                                console.log(searchTearm)
+                                if (searchTearm === ""){
+                                    return val;
+                                }else if (val.Item.toLowerCase().includes(searchTearm.toLowerCase())){
+                                    return val;
+                                }
+                            }).map((Items, key) => {
+                                return (
+                                    <div key={key} className="dataItem" onClick={() => dispatch(showProduct(Items))}>
+                                        <p>{Items.Item}</p>
+                                    </div>
+                                )
+                            })
+                        }
+                    </div>
+                )}
+        </div>
     )
 }
 

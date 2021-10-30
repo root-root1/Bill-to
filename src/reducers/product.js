@@ -1,5 +1,6 @@
 export default () => [
     {
+        "id": "hahsenf",
         "ITEM": "Product 1",
         "HSN": 45264268,
         "PACK": "lCS",
@@ -13,6 +14,7 @@ export default () => [
         "TAXABLEAMOUNT": 120.0,
         "NETVAL": 70.00
     },{
+        "id": "la4s52c",
         "ITEM": "Product 2",
         "HSN": 32164268,
         "PACK": "jCS",
@@ -26,6 +28,7 @@ export default () => [
         "TAXABLEAMOUNT": 60.0,
         "NETVAL": 40.00
     },{
+        "id": "oed412d",
         "ITEM": "Product 3",
         "HSN": 96964268,
         "PACK": "PkS",
@@ -39,6 +42,7 @@ export default () => [
         "TAXABLEAMOUNT": 90.0,
         "NETVAL": 60.00
     },{
+        "id": "yu452we",
         "ITEM": "Product 4",
         "HSN": 68464268,
         "PACK": "KTM",
@@ -52,6 +56,7 @@ export default () => [
         "TAXABLEAMOUNT": 95.0,
         "NETVAL": 150.00
     },{
+        "id": "hsnc293",
         "ITEM": "Product 5",
         "HSN": 84596242,
         "PACK": "RNA",
@@ -65,6 +70,7 @@ export default () => [
         "TAXABLEAMOUNT": 150.0,
         "NETVAL": 40.00
     },{
+        "id": "pwpdks4",
         "ITEM": "Product 6",
         "HSN": 95964267,
         "PACK": "ATM",
@@ -78,6 +84,7 @@ export default () => [
         "TAXABLEAMOUNT": 60.0,
         "NETVAL": 130.00
     },{
+        "id": "oqwlpae",
         "ITEM": "Product 7",
         "HSN": 35964264,
         "PACK": "F22",

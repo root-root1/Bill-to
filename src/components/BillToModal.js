@@ -5,6 +5,7 @@ import classnames from 'classnames';
 import './BillToModal.css'
 import Search from './Search';
 import { useSelector } from 'react-redux';
+import CreateUpdateCustomer from './create-update-customer';
 
 const BillToModal = (props) => {
     const [modal, setModal] = useState(false);
@@ -44,27 +45,30 @@ const BillToModal = (props) => {
                             Add New Customer
                         </NavLink>
                         </NavItem>
-                        {/* <NavItem>
+                        <NavItem>
                         <NavLink
                             className={classnames({ active: activeTab === '3' })}
                             onClick={() => { toggle('3'); }}
                         >
                             Update Customer
                         </NavLink>
-                        </NavItem> */}
+                        </NavItem>
                     </Nav>
                     <TabContent activeTab={activeTab}>
                         <TabPane tabId="1">
                             <Search toogleModal={toogleModal} customers={customers} />
                         </TabPane>
                         <TabPane tabId="2">
-                            
+                            <CreateUpdateCustomer/>
+                        </TabPane>
+                        <TabPane tabId="3">
+                            <CreateUpdateCustomer/>
                         </TabPane>
                     </TabContent>
                     </div>
                 </ModalBody>
                 <ModalFooter>
-                    <button onClick={toogleModal}>Ok</button>
+                    <button className='btn custom' onClick={toogleModal}>Submit</button>
                 </ModalFooter>
             </Modal>
         </div>

@@ -1,84 +1,62 @@
 import React, {useState} from 'react';
 import TextField  from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
 import IconButton  from '@material-ui/core/IconButton';
-import RemoveIcon from '@material-ui/icons/Remove';
-import AddIcon from '@material-ui/icons/Add';
-// import Container from '@material-ui/core/Container';
+import DeleteIcon from '@material-ui/icons/Delete';
 import './tableProductItem.css'
 import './productSearch.css'
-// import ProductSearch from './ProductSearch';
-// import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
-import { showProduct } from '../actions';
 import ProductSearch from './ProductSearch';
+import SelectItem from './SelectItem';
+import DatePickerCom from './DatePickerCom';
 
 
 const TableProductItem = () => {
-
-    const activeProductReducer = useSelector(state => state.activeProductReducer);
-
-    const [inputfields, setInputFields] = useState([
-        {item: '', hsn: 0, pack: '', mrp: 0, batchno: '', batchex: '', Qty: 0, unitprice: 0, discount: 0, gst:0, taxable:0, netval: 0},
-    ]);
+    let [inputfields, setInputfields] = useState([]);
+    let [qty, setQty] = useState(0);
+    const [selectedValue, setSelectedValue] = useState(null);
+    const [selectedDate, setSelectedDate] = useState(null);
 
     const products = useSelector(state => state.products);
+    const activeProductReducer = useSelector(state => state.activeProductReducer);
 
-    // const [searchTearm, setSearchTearm] = useState('');
+    const [searchTearm, setSearchTearm] = useState('');
+    
 
     const handleChangeInput = (index, event) => {
         const values = [...inputfields];
         values[index][event.target.name] = event.target.value;
-        // setInputFields(values);
-        // if (inputfields.Qty !== 0)
-        //     setQty(values);
-    }
-    
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log("inputFields ", inputfields);
+        setInputfields(values);
+        setQty(inputfields[index].Qty)
     }
 
     const SetDispatchAndSetVal = () => {
-       if (activeProductReducer){
-        setInputFields([...inputfields, {
-            item: activeProductReducer.ITEM,
-            hsn: activeProductReducer.HSN,
-            pack: activeProductReducer.PACK,
-            mrp: activeProductReducer.MRP,
-            batchno: activeProductReducer.BATCHNO,
-            batchex: activeProductReducer.BATCHEX,
-            Qty: activeProductReducer.QTY,
-            unitprice: activeProductReducer.UNITPRICE,
-            discount: activeProductReducer.DISCOUNT,
-            gst: activeProductReducer.GST,
-            taxable: activeProductReducer.TAXABLEAMOUNT,
-            netval: activeProductReducer.NETVAL,
-        }]);
+        // console.log(activeProductReducer);
+        if(activeProductReducer !== null){
+            setInputfields([...inputfields, {
+                id: activeProductReducer.id,
+                item: activeProductReducer.ITEM,
+                hsn: activeProductReducer.HSN,
+                pack: activeProductReducer.PACK,
+                mrp: activeProductReducer.MRP,
+                batchno: activeProductReducer.BATCHNO,
+                batchex: activeProductReducer.BATCHEX,
+                Qty: activeProductReducer.QTY,
+                unitprice: activeProductReducer.UNITPRICE,
+                discount: activeProductReducer.DISCOUNT,
+                gst: activeProductReducer.GST,
+                taxable: activeProductReducer.TAXABLEAMOUNT,
+                netval: activeProductReducer.NETVAL,
+            }]);
        }
+    //    console.log(inputfields)
     }
 
-    const handleAddFields = ( ) => {
-        setInputFields([...inputfields, {item: '', hsn: 0, pack: '', mrp: 0, batchno: '', batchex: '', Qty: 0, unitprice: 0, discount: 0, gst:0, taxable:0, netval: 0}]);
-        // setItemdata('');
-        // setHsn(0);
-        // setPack('');
-        // setMrp(0);
-        // setBatchno('');
-        // setBatchex('');
-        // setQty(0);
-        // setUnitprice(0);
-        // setDiscount(0)
-        // setGst(0);
-        // setTaxable(0);
-        // setNetval(0);
-    }
 
     const handleRemoveFields = (index) => {
-        const values = [...inputfields];
-        values.splice(index, 1);
-        setInputFields(values);
+        // const values = [...inputfields];
+        // values.splice(index, 1);
+        // setInputfields(values);
+        setInputfields(inputfields.filter((_, i) => {return index !== i}));
     }
 
 
@@ -96,9 +74,10 @@ const TableProductItem = () => {
         {title: "TAXABLE-AMOUNT"},
         {title: "NET-VAL"},
     ]
-    // console.log(inputfields.length)
+    // let newArray = Array.from(new Set(inputfields))
     return (
         <>
+            <DatePickerCom selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
             <table className='table'>
                 <thead>
                     <th>S.No</th>
@@ -109,22 +88,14 @@ const TableProductItem = () => {
                     <th>Delete</th>
                 </thead>
                 <tbody>
-                    {
-                        inputfields.map((inputfield, index) => {
-                            return (
-                                <>
-                                    <tr key={index}>
+                    <>
+                        {
+                            inputfields.map((inputfield, index) => {
+                                return (
+                                    <tr key={inputfield.id}> 
                                         <td data-label="S.No">{index+1}</td>
                                         <td data-label="ITEM" >
-                                            <ProductSearch
-                                                data={products}
-                                                setInputFields={setInputFields}
-                                                inputfields={inputfields}
-                                                inputfield={inputfield}
-                                                index={index}
-                                                SetDispatchAndSetVal={SetDispatchAndSetVal}
-
-                                            />
+                                            {inputfield.item}
                                         </td>
                                         <td data-label="HSN">{inputfield.hsn}</td>
                                         <td data-label="PACK">{inputfield.pack}</td>
@@ -155,29 +126,32 @@ const TableProductItem = () => {
                                         <td data-label="NET-VAL">{inputfield.netval}</td>  
                                         <td data-label="Delete">
                                             <IconButton className='p-2' onClick={() => handleRemoveFields(index)}>
-                                                <RemoveIcon />
+                                                <DeleteIcon />
                                             </IconButton> 
                                         </td> 
-                                        {console.log(inputfield)}
                                     </tr>
-                                </>
-                            )
-                        })
-                    }
+                                )
+                            })
+                        }
+                    </>
                 </tbody>
             </table>
-            <IconButton color='primary' className="m-4 button" onClick={() => handleAddFields()}>
-                <AddIcon/> Add Poduct
-            </IconButton>
-            <Button
-                variant='container'
-                color='primary'
-                type='submit'
-                className='btn btn-outline'
-                onClick={handleSubmit}
-            >
-                Submit
-            </Button>
+            <ProductSearch
+                data={products}
+                // inputfield={inputfield}
+                // index={index}
+                setSearchTearm={setSearchTearm}
+                searchTearm={searchTearm}
+                SetDispatchAndSetVal={SetDispatchAndSetVal}
+            />
+            <SelectItem className='m-4' setSelectedValue={setSelectedValue} selectedValue={selectedValue}/>
+            {
+                selectedValue?console.log(selectedValue.label):console.log("select first pay mode")
+            }
+            {
+                selectedDate ? console.log(selectedDate):console.log("select a date First")
+
+            }
         </>
     )
 }

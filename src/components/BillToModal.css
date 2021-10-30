@@ -20,3 +20,7 @@ p{
 .user dl{
     cursor: pointer;
 }
+
+.custom {
+    width: 78px !important;
+}

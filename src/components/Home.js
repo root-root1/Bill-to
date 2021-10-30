@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import BillToModal from './BillToModal';
 import TableItem from './TableItem';
 import { useSelector } from 'react-redux';
+import ChangeAddress from './ChangeAddress';
 
 const Home = () => {
     const activeSelectedUserReducer = useSelector(state => state.activeSelectedUserReducer);
@@ -25,8 +26,10 @@ const Home = () => {
                     <p className='text-muted'>{activeSelectedUserReducer ? activeSelectedUserReducer.name : ''}</p>
                 </div>
                 <div className="col-sm mt-8 col" >
-                    Supply Address
-                    <p className='text-muted'>{activeSelectedUserReducer ? activeSelectedUserReducer.details.address: ''}</p>
+                    <ChangeAddress>
+                        Supply Address
+                    </ChangeAddress>
+                    <p className='text-muted'>{activeSelectedUserReducer?activeSelectedUserReducer.details.address: ''}</p>
                 </div>
             </div>
             <TableItem/>

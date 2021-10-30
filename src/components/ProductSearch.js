@@ -1,38 +1,37 @@
-import React, {useState} from 'react';
+import React from 'react';
 import './productSearch.css';
-import { showProduct } from '../actions';
+import { activeProduct } from '../actions';
 import { useDispatch } from 'react-redux';
-// import { useSelector } from 'react-redux';
 
 
 const ProductSearch = ({
     data, 
-    setInputFields, 
-    inputfields, 
-    inputfield, 
-    index,
     SetDispatchAndSetVal,
+    searchTearm,
+    setSearchTearm
 }) => {
-    const [searchTearm, setSearchTearm] = useState('');
+    // const [searchTearm, setSearchTearm] = useState('');
     const dispatch = useDispatch();
 
-    const handleChangeInput = (index, event) => {
-        const values = [...inputfields];
-        values[index][event.target.name] = event.target.value;
-        setInputFields(values);
+    const handleChangeInput = (event) => {
         setSearchTearm(event.target.value);
+    }
+
+    const doEveryThing = () => {
+        SetDispatchAndSetVal();
+        setSearchTearm('');
     }
     
     return (
         <div className="search">
-            <div className="searchInput">
-                <input 
-                    type="text" 
-                    name='item'
-                    value={inputfield.item}
-                    placeholder="product"
-                    onChange={event => handleChangeInput(index, event)}
-                />
+                <div className="searchInput">
+                    <input 
+                        type="text" 
+                        name='item'
+                        value={searchTearm}
+                        placeholder="product"
+                        onChange={event => handleChangeInput(event)}
+                    />
                 </div>
                 {
                     searchTearm.length !== 0 && (
@@ -47,8 +46,10 @@ const ProductSearch = ({
                                     }
                                 }).map((product, key) => {
                                     return (
-                                        <div key={key} className="dataItem" onClick={() => [dispatch(showProduct(product))]}>
-                                            <p onClick={() => SetDispatchAndSetVal()}>{product.ITEM}</p>
+                                        <div key={key} className="dataItem" onClick={() => dispatch(activeProduct(product))}>
+                                            <div onClick={doEveryThing}>
+                                                <p>{product.ITEM}</p>
+                                            </div>
                                         </div>
                                     )
                                 })

@@ -6,9 +6,11 @@ export const selectUser = (user) => {
     }
 }
 
-export const showProduct = (product) => {
+export const activeProduct = (product) => {
     return {
         type: "PRODUCT_CLICKED",
-        payload: product
+        payload: product /*{
+            item: id === ''? '' : products.filter(product => product.id === id)
+        }*/
     }
 }

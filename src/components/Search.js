@@ -11,7 +11,7 @@ const Search = ({toogleModal, customers}) => {
     return (
         <Row>
             <Col sm="12" className="user">
-                <input type="text" placeholder="search..." onChange={event => {setSearchTearm(event.target.value)}} />
+                <input type="text" placeholder="search..." onChange={event => setSearchTearm(event.target.value)} />
                 {customers.filter((val) => {
                     if (searchTearm === ''){
                         return val;

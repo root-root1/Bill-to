@@ -1,6 +1,4 @@
 import React, {useState} from 'react';
-// import { useSelector } from 'react-redux';
-// import ProductSearch from './ProductSearch';
 import TextField  from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import IconButton  from '@material-ui/core/IconButton';
@@ -8,36 +6,32 @@ import RemoveIcon from '@material-ui/icons/Remove';
 import AddIcon from '@material-ui/icons/Add';
 // import Container from '@material-ui/core/Container';
 import './tableProductItem.css'
-import ProductSearch from './ProductSearch';
+import './productSearch.css'
+// import ProductSearch from './ProductSearch';
+// import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
+import { showProduct } from '../actions';
+import ProductSearch from './ProductSearch';
+
 
 const TableProductItem = () => {
-    const [item, setItem] = useState('');
-    const [nsn, setNsn] = useState(0);
-    const [pack, setPack] = useState('');
-    const [mrp, setMrp] = useState(0);
-    const [batchno, setBatchno] = useState('');
-    const [batchex, setBatchex] = useState('');
-    const [qty, setQty] = useState();
-    const [unitprice, setUnitprice] = useState(0);
-    const [discount, setDiscount] = useState(0);
-    const [gst, setGst] = useState(0);
-    const [taxable, setTaxable] = useState(0.0);
-    const [netval, setNetval] = useState(0.0);
-
-    const [inputfields, setInputFiels] = useState([
-        {Item: '', Qty: 0},
-    ])
-
-    const products = useSelector(state => state.products);
 
     const activeProductReducer = useSelector(state => state.activeProductReducer);
 
+    const [inputfields, setInputFields] = useState([
+        {item: '', hsn: 0, pack: '', mrp: 0, batchno: '', batchex: '', Qty: 0, unitprice: 0, discount: 0, gst:0, taxable:0, netval: 0},
+    ]);
+
+    const products = useSelector(state => state.products);
+
+    // const [searchTearm, setSearchTearm] = useState('');
 
     const handleChangeInput = (index, event) => {
         const values = [...inputfields];
         values[index][event.target.name] = event.target.value;
-        setInputFiels(values)
+        // setInputFields(values);
+        // if (inputfields.Qty !== 0)
+        //     setQty(values);
     }
     
 
@@ -46,48 +40,56 @@ const TableProductItem = () => {
         console.log("inputFields ", inputfields);
     }
 
+    const SetDispatchAndSetVal = () => {
+       if (activeProductReducer){
+        setInputFields([...inputfields, {
+            item: activeProductReducer.ITEM,
+            hsn: activeProductReducer.HSN,
+            pack: activeProductReducer.PACK,
+            mrp: activeProductReducer.MRP,
+            batchno: activeProductReducer.BATCHNO,
+            batchex: activeProductReducer.BATCHEX,
+            Qty: activeProductReducer.QTY,
+            unitprice: activeProductReducer.UNITPRICE,
+            discount: activeProductReducer.DISCOUNT,
+            gst: activeProductReducer.GST,
+            taxable: activeProductReducer.TAXABLEAMOUNT,
+            netval: activeProductReducer.NETVAL,
+        }]);
+       }
+    }
+
     const handleAddFields = ( ) => {
-        setInputFiels([...inputfields, {Item: '', Qty: 0}]);
-        setItem('');
-        setNsn(0);
-        setPack('');
-        setMrp(0);
-        setBatchno('');
-        setBatchex('');
-        setQty(0);
-        setUnitprice(0);
-        setDiscount(0);
-        setTaxable(0);
-        setNetval(0);
+        setInputFields([...inputfields, {item: '', hsn: 0, pack: '', mrp: 0, batchno: '', batchex: '', Qty: 0, unitprice: 0, discount: 0, gst:0, taxable:0, netval: 0}]);
+        // setItemdata('');
+        // setHsn(0);
+        // setPack('');
+        // setMrp(0);
+        // setBatchno('');
+        // setBatchex('');
+        // setQty(0);
+        // setUnitprice(0);
+        // setDiscount(0)
+        // setGst(0);
+        // setTaxable(0);
+        // setNetval(0);
     }
 
     const handleRemoveFields = (index) => {
         const values = [...inputfields];
         values.splice(index, 1);
-        setInputFiels(values);
+        setInputFields(values);
     }
-    if (activeProductReducer){
-        setItem(activeProductReducer.Item);
-        setNsn(activeProductReducer.NSN);
-        setPack(activeProductReducer.PACK);
-        setMrp(activeProductReducer.MRP);
-        setBatchno(activeProductReducer.BATCHNO);
-        setBatchex(activeProductReducer.BATCHEX);
-        setQty(activeProductReducer.QTY);
-        setUnitprice(activeProductReducer.UNITPRICE);
-        setGst(activeProductReducer.GST);
-        setTaxable(activeProductReducer.TEXABLEAMOUNT);
-        setNetval(activeProductReducer.NETVAL);
-    }
+
 
     const columns = [
         {title: "ITEM"},
-        {title: "NSN"},
+        {title: "HSN"},
         {title: "PACK"},
         {title: "MRP"},
         {title: "BATCH-NO"},
         {title: "BATCH-EX"},
-        {title: "QYT"},
+        {title: "QTY"},
         {title: "UNIT-PRICE"},
         {title: "DISCOUNT"},
         {title: "GST-(%)"},
@@ -108,59 +110,59 @@ const TableProductItem = () => {
                 </thead>
                 <tbody>
                     {
-                        inputfields.map((inputfield, index) => (
-                            <>
-                                <tr key={index}>
-                                    <td data-label="S.No">{index+1}</td>
-                                    <td data-label="ITEM" >
-                                        {
-                                            // item ?
-                                            // item:
-                                            <ProductSearch 
-                                                placeholder="Product" 
-                                                data={products} 
-                                                setInputFiels={setInputFiels} 
+                        inputfields.map((inputfield, index) => {
+                            return (
+                                <>
+                                    <tr key={index}>
+                                        <td data-label="S.No">{index+1}</td>
+                                        <td data-label="ITEM" >
+                                            <ProductSearch
+                                                data={products}
+                                                setInputFields={setInputFields}
                                                 inputfields={inputfields}
-                                                inputfield={item !== ''?item:inputfield}
-                                                index={index} 
+                                                inputfield={inputfield}
+                                                index={index}
+                                                SetDispatchAndSetVal={SetDispatchAndSetVal}
+
                                             />
-                                        }
-                                    </td>
-                                    <td data-label="NSN">{nsn?nsn:0}</td>
-                                    <td data-label="PACK">{pack?pack:''}</td>
-                                    <td data-label="MRP">{mrp?mrp:0}</td>
-                                    <td data-label="BATCH-NO">{batchno?batchno:''}</td>
-                                    <td data-label="BATCH-EX">{batchex?batchex:''}</td>
-                                    <td data-label="QTY">
-                                        {
-                                            // qty?
-                                            // <TextField
-                                            //         name='Qty'
-                                            //         type='number'
-                                            //         value={qty} 
-                                            //         onChange={event => handleChangeInput(index, event)}
-                                            // />:
-                                            <TextField
-                                                name='Qty'
-                                                type='number'
-                                                value={qty !== 0? qty: inputfield.Qty} 
-                                                onChange={event => handleChangeInput(index, event)}
-                                            />
-                                        }
-                                    </td>
-                                    <td data-label="UNIT-PRICE">{unitprice?unitprice:0}</td>
-                                    <td data-label="DISCOUNT">{discount?discount:0}</td>
-                                    <td data-label="GST-(%)">{gst?gst:0}</td>
-                                    <td data-label="TAXABLE-AMOUNT">{taxable?taxable:0}</td>
-                                    <td data-label="NET-VAL">{netval?netval:0}</td>  
-                                    <td data-label="Delete">
-                                        <IconButton className='p-2' onClick={() => handleRemoveFields(index)}>
-                                            <RemoveIcon />
-                                        </IconButton> 
-                                    </td>                     
-                                </tr>
-                            </>
-                        ))
+                                        </td>
+                                        <td data-label="HSN">{inputfield.hsn}</td>
+                                        <td data-label="PACK">{inputfield.pack}</td>
+                                        <td data-label="MRP">{inputfield.mrp}</td>
+                                        <td data-label="BATCH-NO">{inputfield.batchno}</td>
+                                        <td data-label="BATCH-EX">{inputfield.batchex}</td>
+                                        <td data-label="QTY">
+                                            {
+                                                inputfield.Qty !== 0?
+                                                <TextField
+                                                        name='Qty'
+                                                        type='number'
+                                                        value={inputfield.Qty} 
+                                                        onChange={event => handleChangeInput(index, event)}
+                                                />:
+                                                <TextField
+                                                    name='Qty'
+                                                    type='number'
+                                                    value={inputfield.Qty} 
+                                                    onChange={event => handleChangeInput(index, event)}
+                                                />
+                                            }
+                                        </td>
+                                        <td data-label="UNIT-PRICE">{inputfield.unitprice}</td>
+                                        <td data-label="DISCOUNT">{inputfield.discount}</td>
+                                        <td data-label="GST-(%)">{inputfield.gst}</td>
+                                        <td data-label="TAXABLE-AMOUNT">{inputfield.taxable}</td>
+                                        <td data-label="NET-VAL">{inputfield.netval}</td>  
+                                        <td data-label="Delete">
+                                            <IconButton className='p-2' onClick={() => handleRemoveFields(index)}>
+                                                <RemoveIcon />
+                                            </IconButton> 
+                                        </td> 
+                                        {console.log(inputfield)}
+                                    </tr>
+                                </>
+                            )
+                        })
                     }
                 </tbody>
             </table>

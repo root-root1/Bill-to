@@ -2,8 +2,8 @@ import React, {useState} from 'react';
 import TextField  from '@material-ui/core/TextField';
 import IconButton  from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
-import './tableProductItem.css'
-import './productSearch.css'
+import './tableProductItem.css';
+import './productSearch.css';
 import { useSelector } from 'react-redux';
 import ProductSearch from './ProductSearch';
 import SelectItem from './SelectItem';
@@ -12,12 +12,14 @@ import DatePickerCom from './DatePickerCom';
 
 const TableProductItem = () => {
     let [inputfields, setInputfields] = useState([]);
-    let [qty, setQty] = useState(0);
+    // let [qty, setQty] = useState(0);
     const [selectedValue, setSelectedValue] = useState(null);
-    const [selectedDate, setSelectedDate] = useState(null);
+    const [selectedDate, setSelectedDate] = useState(new Date);
 
     const products = useSelector(state => state.products);
-    const activeProductReducer = useSelector(state => state.activeProductReducer);
+    const activeSelectedUserReducer = useSelector(state => state.activeSelectedUserReducer);
+
+
 
     const [searchTearm, setSearchTearm] = useState('');
     
@@ -26,37 +28,42 @@ const TableProductItem = () => {
         const values = [...inputfields];
         values[index][event.target.name] = event.target.value;
         setInputfields(values);
-        setQty(inputfields[index].Qty)
+        // setQty(inputfields[index].Qty)
     }
-
-    const SetDispatchAndSetVal = () => {
-        // console.log(activeProductReducer);
-        if(activeProductReducer !== null){
-            setInputfields([...inputfields, {
-                id: activeProductReducer.id,
-                item: activeProductReducer.ITEM,
-                hsn: activeProductReducer.HSN,
-                pack: activeProductReducer.PACK,
-                mrp: activeProductReducer.MRP,
-                batchno: activeProductReducer.BATCHNO,
-                batchex: activeProductReducer.BATCHEX,
-                Qty: activeProductReducer.QTY,
-                unitprice: activeProductReducer.UNITPRICE,
-                discount: activeProductReducer.DISCOUNT,
-                gst: activeProductReducer.GST,
-                taxable: activeProductReducer.TAXABLEAMOUNT,
-                netval: activeProductReducer.NETVAL,
-            }]);
-       }
-    //    console.log(inputfields)
-    }
-
 
     const handleRemoveFields = (index) => {
-        // const values = [...inputfields];
-        // values.splice(index, 1);
-        // setInputfields(values);
-        setInputfields(inputfields.filter((_, i) => {return index !== i}));
+        const values = [...inputfields];
+        values.splice(index, 1);
+        setInputfields(values);
+        // setInputfields(inputfields.filter((_, i) => {return index !== i}));
+    }
+
+    const printOnSubmit = () => {
+        alert("Check the Console");
+        console.log("From: Surelocal Supply Chain Pvt Ltd")
+        console.log("Bill to : ", activeSelectedUserReducer.name);
+        console.log("Shipping Address is : ", activeSelectedUserReducer.details.address);
+        const listofMrpAndQty = []
+        selectedValue?console.log(selectedValue.label):console.log("select first pay mode")
+        selectedDate ? console.log(selectedDate):console.log("select a date First")
+        inputfields.map(inputfield => {
+            listofMrpAndQty.push({title: inputfield.item, productTotal: parseInt(inputfield.mrp) * parseInt(inputfield.Qty)})
+        })
+        // console.log(...listofMrpAndQty);
+        // console.log(listofMrpAndQty);
+        listofMrpAndQty.map((data, i) => {
+            // let fields = JSON.parse(data);
+            let total = 0
+            console.log("Product name: ", data.title)
+            console.log("Product Total: ", data.productTotal);
+            // allProductSum.push({item: data.title, productTotal: data.mrp * data.qty})
+        })
+        let total = 0
+        for (let i = 0; i<listofMrpAndQty.length;i += 1){
+            total += listofMrpAndQty[i].productTotal;
+        }
+        console.log("total is : ", total);
+        // console.log(allProductSum);
     }
 
 
@@ -92,9 +99,10 @@ const TableProductItem = () => {
                         {
                             inputfields.map((inputfield, index) => {
                                 return (
-                                    <tr key={inputfield.id}> 
+                                    <tr key={index}> 
                                         <td data-label="S.No">{index+1}</td>
                                         <td data-label="ITEM" >
+                                            {/* {inputfield.id} */}
                                             {inputfield.item}
                                         </td>
                                         <td data-label="HSN">{inputfield.hsn}</td>
@@ -138,20 +146,19 @@ const TableProductItem = () => {
             </table>
             <ProductSearch
                 data={products}
-                // inputfield={inputfield}
+                inputfields={inputfields}
+                setInputfields={setInputfields}
                 // index={index}
                 setSearchTearm={setSearchTearm}
                 searchTearm={searchTearm}
-                SetDispatchAndSetVal={SetDispatchAndSetVal}
             />
             <SelectItem className='m-4' setSelectedValue={setSelectedValue} selectedValue={selectedValue}/>
-            {
-                selectedValue?console.log(selectedValue.label):console.log("select first pay mode")
-            }
-            {
-                selectedDate ? console.log(selectedDate):console.log("select a date First")
-
-            }
+            <input
+                className="btn mt-4 button"
+                type='button'
+                value='Submit'
+                onClick={() => printOnSubmit()}
+            />
         </>
     )
 }

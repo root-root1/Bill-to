@@ -1,21 +1,46 @@
 import React from 'react';
 import './productSearch.css';
 import { activeProduct } from '../actions';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 
 const ProductSearch = ({
     data, 
-    SetDispatchAndSetVal,
+    setInputfields,
+    inputfields,
     searchTearm,
     setSearchTearm
 }) => {
-    // const [searchTearm, setSearchTearm] = useState('');
     const dispatch = useDispatch();
+    const activeProducts = useSelector(state => state.activeProductReducer);
 
     const handleChangeInput = (event) => {
         setSearchTearm(event.target.value);
     }
+
+    const SetDispatchAndSetVal = () => {
+        if(activeProducts !== null){
+            activeProducts.map((product) => 
+                setInputfields([...inputfields, {
+                    id: product.id,
+                    item: product.ITEM,
+                    hsn: product.HSN,
+                    pack: product.PACK,
+                    mrp: product.MRP,
+                    batchno: product.BATCHNO,
+                    batchex: product.BATCHEX,
+                    Qty: product.QTY,
+                    unitprice: product.UNITPRICE,
+                    discount: product.DISCOUNT,
+                    gst: product.GST,
+                    taxable: product.TAXABLEAMOUNT,
+                    netval: product.NETVAL,
+                }])
+            );
+       }
+    //    console.log(inputfields)
+    }
+
 
     const doEveryThing = () => {
         SetDispatchAndSetVal();
@@ -46,8 +71,8 @@ const ProductSearch = ({
                                     }
                                 }).map((product, key) => {
                                     return (
-                                        <div key={key} className="dataItem" onClick={() => dispatch(activeProduct(product))}>
-                                            <div onClick={doEveryThing}>
+                                        <div key={key} className="dataItem" onClick={() => dispatch(activeProduct(data, product.id))}>
+                                            <div onClick={() => doEveryThing()}>
                                                 <p>{product.ITEM}</p>
                                             </div>
                                         </div>

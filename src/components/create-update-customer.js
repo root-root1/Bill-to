@@ -1,29 +1,27 @@
 import React from 'react';
-import './productSearch.css'
+import './create-update.css'
 
 const CreateUpdateCustomer = () => {
     return (
         <div className='search'>
-            <div className="searchInput row">
+            <div className="searchField">
                 <input 
                     type="text" 
                     name='item'
                     placeholder="Name"
-                    className='m-4 col'
+                    className='m-4'
                 />
-                <br />
                 <input 
                     type="text" 
                     name='item'
                     placeholder="address"
-                    className='m-4 col'
+                    className='m-4'
                 />
-                <br />
                 <input 
                     type="text" 
                     name='item'
                     placeholder="Phone no"
-                    className='m-4 col'
+                    className='m-4'
                 />
             </div>
         </div>

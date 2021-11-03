@@ -7,7 +7,7 @@ export const selectUser = (user) => {
 }
 
 export const activeProduct = (products, id) => {
-    console.log()
+    // console.log()
     return {
         type: "PRODUCT_CLICKED",
         payload: products.filter(product => product.id === id),
